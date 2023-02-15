@@ -1,0 +1,14 @@
+pandas
+requests
+numpy
+pytz
+setuptools
+python-decouple
+aiohttp
+matplotlib
+asyncio
+gql
+ta
+bcrypt
+schedule
+novalabs-backtest
