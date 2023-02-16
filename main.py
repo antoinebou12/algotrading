@@ -130,3 +130,4 @@ strat = MACD_HIST(
 
     
     
+strat.run_backtest()
