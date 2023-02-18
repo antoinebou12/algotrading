@@ -76,6 +76,7 @@ class MACD_HIST (BackTest):
         df['entry_signal'] = np.nan
         df['take_profit'] = np.nan
         df['stop_loss'] = np.nan
+        df['position_size'] = 1
 
         long_conditions = (df['macd'] > 0) & (df['macd'].shift(1) < 0)
         short_conditions = (df['macd'] < 0) & (df['macd'].shift(1) > 0)
@@ -101,7 +102,7 @@ class MACD_HIST (BackTest):
     
 
 
-strat = MACD_HIST(  
+strat = MACD_HIST(
     exchange = "binance",
     strategy_name = 'MACD',
     candle = '1h',
@@ -114,7 +115,7 @@ strat = MACD_HIST(
     max_pos = 2,
     max_holding = timedelta(hours=12),
     quote_asset = 'USDT',
-    geometric_sizes = False,
+    geometric_sizes = True,
     
     # Specific to Backtest Analysis
     save_all_pairs_charts = False,
@@ -124,10 +125,10 @@ strat = MACD_HIST(
     secret = "",
     passphrase = "",
     
-    tp_sl_delta = 0.005
+    tp_sl_delta = 0.05
 )
 
 
     
     
-strat.run_backtest()
+stats = strat.run_backtest(save=False)
