@@ -9,10 +9,34 @@ pd.options.mode.chained_assignment = None
 
 
 class MACD_HIST (BackTest):
+    """
+    A backtesting strategy using the MACD indicator to generate buy and sell signals.
 
+    Args:
+        exchange: Exchange name
+        strategy_name: Name of the strategy
+        candle: Candle size
+        list_pair: List of pairs to backtest
+        start: Start date
+        end: End date
+        fees: Fees
+        start_bk: Starting balance
+        leverage: Leverage
+        max_pos: Maximum number of positions
+        max_holding: Maximum holding time
+        quote_asset: Quote asset
+        geometric_sizes: Use geometric sizes
+        # Specific to Backtest Analysis
+        save_all_pairs_charts: Save all pairs charts
+        update_data: Update data
+        plot_exposure: Plot exposure
+        key: API key
+        secret: API secret
+        passphrase: API passphrase
+
+    """
     def __init__(
         self,
-        
         exchange: str,
         strategy_name: str,
         candle: str,
@@ -26,7 +50,6 @@ class MACD_HIST (BackTest):
         max_holding: timedelta,
         quote_asset: str = 'USDT',
         geometric_sizes: bool = False,
-        
         # Specific to Backtest Analysis
         save_all_pairs_charts: bool = False,
         update_data: bool = False,
@@ -34,7 +57,6 @@ class MACD_HIST (BackTest):
         key: str = "",
         secret: str = "",
         passphrase: str = "",
-        
         tp_sl_delta: float = 0.005
     ):
 
@@ -55,8 +77,6 @@ class MACD_HIST (BackTest):
             max_holding = max_holding,
             quote_asset = quote_asset,
             geometric_sizes = geometric_sizes,
-            
-            # Specific to Backtest Analysis
             save_all_pairs_charts = save_all_pairs_charts,
             update_data = update_data,
             plot_exposure = plot_exposure,
@@ -66,13 +86,30 @@ class MACD_HIST (BackTest):
         )
 
     def build_indicators(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+            Adds the MACD indicator to the dataframe.
+
+            Args:
+                df (pd.DataFrame): the dataframe to add the MACD indicator to.
+            
+            Returns:
+                df (pd.DataFrame): the dataframe with the MACD indicator added.
+        """
 
         df['macd'] = macd_diff(close=df['close'])
 
         return df
 
     def entry_strategy(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Generates buy and sell signals based on the MACD indicator.
 
+        Args:
+            df (pd.DataFrame): the dataframe to generate buy and sell signals for.
+        
+        Returns:
+            df (pd.DataFrame): the dataframe with buy and sell signals generated.
+        """
         df['entry_signal'] = np.nan
         df['take_profit'] = np.nan
         df['stop_loss'] = np.nan
@@ -94,12 +131,11 @@ class MACD_HIST (BackTest):
         Returns:
             All information necessary for exit points
         """
-        
+
         # df['exit_signal'] = np.where(df['exit_point'] < self.exit_probability, 1, 0)
         df['exit_signal'] = np.nan
 
         return df
-    
 
 
 strat = MACD_HIST(
@@ -116,19 +152,13 @@ strat = MACD_HIST(
     max_holding = timedelta(hours=12),
     quote_asset = 'USDT',
     geometric_sizes = True,
-    
-    # Specific to Backtest Analysis
     save_all_pairs_charts = False,
     update_data = False,
     plot_exposure = False,
     key = "",
     secret = "",
     passphrase = "",
-    
     tp_sl_delta = 0.05
 )
 
-
-    
-    
 stats = strat.run_backtest(save=False)
