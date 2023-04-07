@@ -21,6 +21,7 @@ conda activate algotrading
 ```
 
 ## II - Install Libraries
+
 Install the required libraries by running:
 
 ```shell
@@ -37,9 +38,7 @@ https://www.youtube.com/watch?v=1r8eDuDf3Qo&ab_channel=BryanSichoix
 Here are some tips to help you during the development process:
 
 - Look at the execution of "run_backtest" of the library "novalabs"
-
 - The exposure plot takes a really long time to execute => Should be equal to false plot_exposure
-
 - When the performance graph is poping up on your display, you have to close it to continu the execution
 
 We hope this guide helps you develop successful trading strategies using Novalabs.ai!
@@ -50,5 +49,6 @@ Go to the folder "example" and run jupyter notebook
 
 ```shell
 cd example
+pip3 install jupyter jupyterlab
 jupyter notebook
 ```
